@@ -1,9 +1,14 @@
 import React,{useState,useRef,useEffect} from 'react';
 
-function useCount() {
+function App(props) {
+    /**
+     *两种情况使用useRef 
+     *1.获取dom节点或者组件
+     *2.不同周期共享数据 
+     *  */
+    const ref = useRef();
+    // console.log(ref);
     const [count,setCount] = useState(()=>0);
-    
-    const ref = useRef(); 
     useEffect(()=>{
         ref.current = window.setInterval(()=>{
             setCount(count=>{
@@ -14,16 +19,11 @@ function useCount() {
             })
            
         },1000);
-    },[]);
+    },[ref]);
     return (
-        <button ref={ref}>
-            {count}
-        </button>
-   );
-}
-function App(props) {
- 
-    const ele = useCount();
-    return ele;
+         <button onClick={()=>setCount(count+1)}>
+             {count}
+         </button>
+    );
 }
 export default App;
